@@ -1,3 +1,4 @@
 package constant
 
-const RabbitMqConnectionString="amqp://services:services@192.168.120.46:5672/gogo"
+const MongoDbConnectionString="mongodb://dbtest:abcd@1234@ds211259.mlab.com:11259/"
+const MongoDbNameShippingDiscount ="shipping_discount"

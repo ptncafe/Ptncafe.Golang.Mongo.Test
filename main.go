@@ -1,25 +1,19 @@
 package main
 
 import (
-	"Ptncafe.Golang.RabbitMQ.Test/constant"
-	"Ptncafe.Golang.RabbitMQ.Test/consumer"
-	"Ptncafe.Golang.RabbitMQ.Test/controller"
-	"Ptncafe.Golang.RabbitMQ.Test/rabbitmq_provider"
+	"Ptncafe.Golang.Mongo.Test/constant"
+	"Ptncafe.Golang.Mongo.Test/provider/mongo_provider"
+	"context"
 	"github.com/gin-gonic/gin"
 )
 
-var rabbitMqClient rabbitmq_provider.IRabbitMqClient
 func main() {
-
-	err := rabbitmq_provider.RegisterQueue()
-	if err !=nil {
+	ctx:= context.Background()
+	shippingDiscountDb,err := mongo_provider.NewMongoProvider(ctx, constant.MongoDbConnectionStringectionString, constant.MongoDbConnectionStringNameShippingDiscount)
+	if err !=nil{
 		panic(err)
 	}
-	go func() {
-		consumer.InitConsumer(constant.RabbitMqConnectionString)
-	}()
-
 	r := gin.Default()
-	r.GET("queue", controller.QueueController)
+	//r.GET("queue", controller.QueueController)
 	r.Run()
 }
