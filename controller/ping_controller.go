@@ -10,14 +10,17 @@ import (
 	"time"
 )
 
-func PingController(c *gin.Context, shippingDiscountDb *mongo.Database) {
-	ctx, _ := context.WithTimeout(context.Background(), 2*time.Second)
-	err := shippingDiscountDb.Client().Ping(ctx, readpref.Primary())
-	if err != nil{
-		logrus.Errorf("PingController %v", err)
-		c.JSON(http.StatusInternalServerError, err)
+func PingController(shippingDiscountDb *mongo.Database) gin.HandlerFunc {
+	return func(c *gin.Context) {
+		ctx, _ := context.WithTimeout(context.Background(), 2*time.Second)
+		err := shippingDiscountDb.Client().Ping(ctx, readpref.Primary())
+		if err != nil{
+			logrus.Errorf("PingController %v", err)
+			c.JSON(http.StatusInternalServerError, err)
+			return
+		}
+		c.JSON(http.StatusOK, gin.H{"message": shippingDiscountDb.Name(), "status": http.StatusOK})
 		return
 	}
-	c.JSON(http.StatusOK, gin.H{"message": shippingDiscountDb.Name(), "status": http.StatusOK})
-	return
+
 }

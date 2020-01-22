@@ -7,5 +7,5 @@ import (
 )
 
 func RegisterRoute(r *gin.Engine, shippingDiscountDb *mongo.Database){
-	r.GET("queue", controller.PingController(shippingDiscountDb))
+	r.GET("ping", controller.PingController(shippingDiscountDb))
 }
