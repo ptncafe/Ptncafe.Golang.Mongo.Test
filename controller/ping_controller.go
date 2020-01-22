@@ -12,7 +12,7 @@ import (
 
 func PingController(shippingDiscountDb *mongo.Database) gin.HandlerFunc {
 	return func(c *gin.Context) {
-		ctx, _ := context.WithTimeout(context.Background(), 2*time.Second)
+		ctx, _ := context.WithTimeout(context.Background(), 10*time.Second)
 		err := shippingDiscountDb.Client().Ping(ctx, readpref.Primary())
 		if err != nil{
 			logrus.Errorf("PingController %v", err)
